@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ShopSmart Admin Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24
+      }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#2463eb",
+              "background-light": "#f6f6f8",
+              "background-dark": "#111621",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="relative flex min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="flex flex-row min-h-screen">
+<!-- SideNavBar -->
+<aside class="w-64 flex-shrink-0 bg-white dark:bg-background-dark border-r border-gray-200 dark:border-gray-800 flex flex-col">
+<div class="flex flex-col justify-between h-full p-4">
+<div class="flex flex-col gap-8">
+<div class="flex items-center gap-3 px-2">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="ShopSmart logo abstract pattern" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDCyihBmYWse3q36-q3Tpy5Zq0aVgy20FYK1SnCsCnl596GCMEySU1SlecQRaf1CJcwWndfyBTloRdM_9nH5h24ekeUJ0uHlOmc1xMzBiXJkjJ5Pc5gHCDK6Q7v8g5LFHycc-ez8mBoSAwZhp-Ly5TUFYW4XO0aYWI2nMyeJPR-Sgl379uL1iylSIp73ZH-dLo0UyWY01eXe4VIjLsY50vqm1XdxpexZOSXXHNsOyA7Acezihfi-Lj1LqkcDUQU78V0lxkgqfLoH4Wz");'></div>
+<div class="flex flex-col">
+<h1 class="text-gray-900 dark:text-white text-base font-medium leading-normal">ShopSmart</h1>
+<p class="text-gray-500 dark:text-gray-400 text-sm font-normal leading-normal">Admin Panel</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 dark:bg-primary/20" href="#">
+<span class="material-symbols-outlined text-primary text-2xl">package_2</span>
+<p class="text-primary text-sm font-medium leading-normal">Products</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" href="#">
+<span class="material-symbols-outlined text-gray-700 dark:text-gray-300 text-2xl">shopping_cart</span>
+<p class="text-gray-700 dark:text-gray-300 text-sm font-medium leading-normal">Orders</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" href="#">
+<span class="material-symbols-outlined text-gray-700 dark:text-gray-300 text-2xl">group</span>
+<p class="text-gray-700 dark:text-gray-300 text-sm font-medium leading-normal">Users</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" href="#">
+<span class="material-symbols-outlined text-gray-700 dark:text-gray-300 text-2xl">bar_chart</span>
+<p class="text-gray-700 dark:text-gray-300 text-sm font-medium leading-normal">Analytics</p>
+</a>
+</nav>
+</div>
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" href="#">
+<span class="material-symbols-outlined text-gray-700 dark:text-gray-300 text-2xl">settings</span>
+<p class="text-gray-700 dark:text-gray-300 text-sm font-medium leading-normal">Settings</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" href="#">
+<span class="material-symbols-outlined text-gray-700 dark:text-gray-300 text-2xl">logout</span>
+<p class="text-gray-700 dark:text-gray-300 text-sm font-medium leading-normal">Log Out</p>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col bg-background-light dark:bg-background-dark">
+<div class="p-8">
+<!-- PageHeading -->
+<div class="flex flex-wrap justify-between items-center gap-4 mb-6">
+<div class="flex flex-col gap-1">
+<p class="text-gray-900 dark:text-white text-3xl font-bold leading-tight tracking-tight">Products</p>
+<p class="text-gray-500 dark:text-gray-400 text-base font-normal leading-normal">Manage all products in your inventory.</p>
+</div>
+<button class="flex items-center justify-center gap-2 rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal shadow-sm hover:bg-primary/90 focus-visible:outline  focus-visible:outline-offset-2 focus-visible:outline-primary">
+<span class="material-symbols-outlined">add</span>
+<span class="truncate">Add New Product</span>
+</button>
+</div>
+<!-- SearchBar -->
+<div class="mb-6">
+<div class="relative">
+<span class="material-symbols-outlined text-gray-500 dark:text-gray-400 absolute left-4 top-1/2 -translate-y-1/2">search</span>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800/50 h-12 placeholder:text-gray-500 dark:placeholder:text-gray-400 pl-12 pr-4 text-base font-normal leading-normal" placeholder="Search products by name or SKU..." value=""/>
+</div>
+</div>
+<!-- Table -->
+<div class="@container">
+<div class="flex overflow-hidden rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900/50">
+<table class="w-full">
+<thead class="bg-gray-50 dark:bg-gray-800/50">
+<tr>
+<th class="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-[45%]">Product</th>
+<th class="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-[15%]">Price</th>
+<th class="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-[15%]">Stock</th>
+<th class="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-[15%]">Status</th>
+<th class="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-[10%]">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-gray-200 dark:divide-gray-800">
+<tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center gap-4">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-lg w-12 h-12 flex-shrink-0" data-alt="Wireless headphones on a gradient background" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDbQBr7kpY7SAvlVADvFb04tfIVhNff_fPSvbGg6X2srefjxzgB731ZSDbrXeC_p6iJYTTgalIvTDOVv_V8i0RumsWlbMa5ut5Wn0sAZOOi_01gtMngNruF2iqbd13jDzQrUDTiuP1LOyXQk4mqbzUxQvGq-dEfp-acBAqTm6VOg9FeUOabrAA_yBPHPyYvzRMzPSRd2f5L9fiTdKf_kxGhuYWRSbjBMLZrLNhAfhy6rKW-qLh6szIf31IR1zRjCKl31TH70yxJbsA1");'></div>
+<div class="flex flex-col">
+<p class="text-sm font-medium text-gray-900 dark:text-white">Wireless Headphones</p>
+<p class="text-sm text-gray-500 dark:text-gray-400">ELEC-HDPH-001</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-300">$99.99</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-300">150</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+<span class="inline-flex items-center rounded-full bg-green-100 dark:bg-green-900/50 px-3 py-1 text-xs font-medium text-green-800 dark:text-green-300">Published</span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+<div class="flex items-center gap-2">
+<button class="text-gray-500 hover:text-primary dark:text-gray-400 dark:hover:text-primary"><span class="material-symbols-outlined text-xl">edit</span></button>
+<button class="text-gray-500 hover:text-red-600 dark:text-gray-400 dark:hover:text-red-500"><span class="material-symbols-outlined text-xl">delete</span></button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center gap-4">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-lg w-12 h-12 flex-shrink-0" data-alt="A modern leather wallet on a wooden surface" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBVifIGWvRGYNuYce6r3964G5iTEhgz70jPynl_mSvlm6sV25nBiJKMWwavY4um3VbleEjYjSWx1jvGLKp6vs4oeaWpqNyDiJm9f5Tzmqa9ErWMiO9nU5ZZyrk1_QwZuTzMVrODLlXRg0x7PYVFfJRtvAM-iMt3SXpaRekKMJrX8E67h_Hw8xw-UticD3pUeVQuC70P4ZR56SIySTpW2RLcyjngzUf39LUUxkLICXvZtGYhc16ef_2DsOsvtqfKR_X6_1uW_bN9dC80");'></div>
+<div class="flex flex-col">
+<p class="text-sm font-medium text-gray-900 dark:text-white">Leather Wallet</p>
+<p class="text-sm text-gray-500 dark:text-gray-400">ACC-WALL-003</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-300">$45.00</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-300">200</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+<span class="inline-flex items-center rounded-full bg-green-100 dark:bg-green-900/50 px-3 py-1 text-xs font-medium text-green-800 dark:text-green-300">Published</span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+<div class="flex items-center gap-2">
+<button class="text-gray-500 hover:text-primary dark:text-gray-400 dark:hover:text-primary"><span class="material-symbols-outlined text-xl">edit</span></button>
+<button class="text-gray-500 hover:text-red-600 dark:text-gray-400 dark:hover:text-red-500"><span class="material-symbols-outlined text-xl">delete</span></button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center gap-4">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-lg w-12 h-12 flex-shrink-0" data-alt="A plain white t-shirt hanging on a rack" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBLDmq_ZbjLIvF3UbtdR_IFmhpLy5tgW8BY1bx8kjpx7U8qD2jgAsGwFsLyGip8QlzA-9CcJ5jBpsZII3xIXFYXVlTDPD-MQ8NUznZ7BQSxupt7WiRVAWjSWdKkbPn40P6XQRdCGZEsuAB1EdRQfTs23ckvk8kY559J1U4rMbypwaBKGAKLOL9AM9RtTUYte7O8oQKgnP7D5EV1Gqx3-_7IFueMONkTEDZwYTyC-9W2UVjDPKYYK25Pd5UCMHSaHpr1m3CrbjH8a3IF");'></div>
+<div class="flex flex-col">
+<p class="text-sm font-medium text-gray-900 dark:text-white">Basic T-Shirt</p>
+<p class="text-sm text-gray-500 dark:text-gray-400">FASH-TSHRT-012</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-300">$25.50</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-300">88</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+<span class="inline-flex items-center rounded-full bg-yellow-100 dark:bg-yellow-900/50 px-3 py-1 text-xs font-medium text-yellow-800 dark:text-yellow-300">Draft</span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+<div class="flex items-center gap-2">
+<button class="text-gray-500 hover:text-primary dark:text-gray-400 dark:hover:text-primary"><span class="material-symbols-outlined text-xl">edit</span></button>
+<button class="text-gray-500 hover:text-red-600 dark:text-gray-400 dark:hover:text-red-500"><span class="material-symbols-outlined text-xl">delete</span></button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center gap-4">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-lg w-12 h-12 flex-shrink-0" data-alt="A silver smartwatch with a black band" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBkRCrgoMhjIg2ppxWfBfrDSGs9sxQCfpyGBU1UlB9rrWWHDW4VbXCV6R0YedMbvQCVSjl_bkA_AIwWUvk3lwOnqFEJi2Jp2tGj91CsdA0ML8m20gB1KpLl07ueFtQXhHEj75OSBLBiOMXpKKmWqU6kWjK_G_wMFUGTSTv7aboj5D9SuYQFxqmPmYKtStrUvVDA5V8L78LFLT9UwNsThgv4wZt1djTjyEeF1OxSNmOfQz6QKNIEvf5ILMGAQ4mDaIjtT8QiyLMOZL7D");'></div>
+<div class="flex flex-col">
+<p class="text-sm font-medium text-gray-900 dark:text-white">Smartwatch Series 5</p>
+<p class="text-sm text-gray-500 dark:text-gray-400">ELEC-SMWTCH-005</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-300">$120.00</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-300">30</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+<span class="inline-flex items-center rounded-full bg-green-100 dark:bg-green-900/50 px-3 py-1 text-xs font-medium text-green-800 dark:text-green-300">Published</span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+<div class="flex items-center gap-2">
+<button class="text-gray-500 hover:text-primary dark:text-gray-400 dark:hover:text-primary"><span class="material-symbols-outlined text-xl">edit</span></button>
+<button class="text-gray-500 hover:text-red-600 dark:text-gray-400 dark:hover:text-red-500"><span class="material-symbols-outlined text-xl">delete</span></button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center gap-4">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-lg w-12 h-12 flex-shrink-0" data-alt="A stainless steel water bottle with a blue cap" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCz-8q603mTfta6dzy5QOU0IDZaKBeK1_MrMwPgumUP5mQeQC6w-Nh2toYe60e6LGfah08AcOGzHP3wAD2FnCQBuuHg4WNh5j7jr2_OTeUgPZ3mqKqg6ahXuEel1B5AVNg7s-rTdLhvrZqJxqIsTknuNb2FqtZ99lKqNghUSwqMB0hMMXkEHKDknCzqrL1sVDl23mz7JeldLPPhf-iq74HFjYE420-RuJcBKYDHZLKlhU93Pt24e_yvPc8egSt7u3Gn-NHJziOnMaL5");'></div>
+<div class="flex flex-col">
+<p class="text-sm font-medium text-gray-900 dark:text-white">Insulated Water Bottle</p>
+<p class="text-sm text-gray-500 dark:text-gray-400">ACC-BOTL-007</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-300">$19.99</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-300">500</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+<span class="inline-flex items-center rounded-full bg-red-100 dark:bg-red-900/50 px-3 py-1 text-xs font-medium text-red-800 dark:text-red-300">Out of Stock</span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+<div class="flex items-center gap-2">
+<button class="text-gray-500 hover:text-primary dark:text-gray-400 dark:hover:text-primary"><span class="material-symbols-outlined text-xl">edit</span></button>
+<button class="text-gray-500 hover:text-red-600 dark:text-gray-400 dark:hover:text-red-500"><span class="material-symbols-outlined text-xl">delete</span></button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Pagination -->
+<div class="flex items-center justify-between mt-6 px-2">
+<p class="text-sm text-gray-600 dark:text-gray-400">Showing <span class="font-medium text-gray-800 dark:text-gray-200">1</span> to <span class="font-medium text-gray-800 dark:text-gray-200">5</span> of <span class="font-medium text-gray-800 dark:text-gray-200">97</span> results</p>
+<nav class="flex items-center justify-center">
+<a class="flex size-9 items-center justify-center rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800" href="#">
+<span class="material-symbols-outlined text-lg">chevron_left</span>
+</a>
+<a class="text-sm font-bold leading-normal flex size-9 items-center justify-center text-white rounded-lg bg-primary" href="#">1</a>
+<a class="text-sm font-normal leading-normal flex size-9 items-center justify-center text-gray-800 dark:text-gray-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" href="#">2</a>
+<a class="text-sm font-normal leading-normal flex size-9 items-center justify-center text-gray-800 dark:text-gray-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" href="#">3</a>
+<span class="text-sm font-normal leading-normal flex size-9 items-center justify-center text-gray-500 dark:text-gray-400 rounded-lg">...</span>
+<a class="text-sm font-normal leading-normal flex size-9 items-center justify-center text-gray-800 dark:text-gray-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" href="#">10</a>
+<a class="flex size-9 items-center justify-center rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800" href="#">
+<span class="material-symbols-outlined text-lg">chevron_right</span>
+</a>
+</nav>
+</div>
+</div>
+</main>
+</div>
+</div>
+</body></html>
