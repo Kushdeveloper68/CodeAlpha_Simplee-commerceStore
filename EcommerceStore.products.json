@@ -1,0 +1,340 @@
+[{
+  "_id": {
+    "$oid": "692acdcba0d3f18fea4a399a"
+  },
+  "productTitle": "Elegant Casual Shirt",
+  "shortDescription": "Comfortable cotton shirt for everyday wear.",
+  "longDescription": "This shirt is made from premium cotton fabric, perfect for casual outings and office wear. Soft, breathable, and durable.",
+  "rating": 4.3,
+  "price": 899,
+  "quantity": 25,
+  "mainImageUrl": "https://lh3.googleusercontent.com/aida-public/AB6AXuDlXPmrP9gTKzKqsLWD5ue9Oikv_Xc6TsFHaxIs1QDJ6EG51-if23AszJuF8V7MGEoqQjWS4FEGs96O9OAWvJUVTOC8te3IbDqfSHb8YU3uH6HtrHO9M4Iuxo1XgZz5LC00cgWpX4uW8S3b8B87Ez7tbVWrZ0zzeRiSU2avPe4Ejk16dwLJvht2sdFU-_I21J__OVHKBgyENDoXwcy6Wov62UvzxcZC8Jg2je7rLchAtIdvJhprVOxN0w3F9-AI5q_DLVzv8sy6IOzT",
+  "moreImages": [],
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-29T10:41:15.140Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-29T10:41:15.140Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "692acdcba0d3f18fea4a399b"
+  },
+  "productTitle": "Stylish Running Shoes",
+  "shortDescription": "Lightweight and comfortable running shoes.",
+  "longDescription": "Engineered for maximum comfort and performance. Breathable mesh upper with cushioned sole ensures a smooth run every time.",
+  "rating": 4.7,
+  "price": 2199,
+  "quantity": 40,
+  "mainImageUrl": "https://lh3.googleusercontent.com/aida-public/AB6AXuC6dOvurR7E8fKqUrFeOWQAft-esbBTM7V-D5PayegFujXA-rAUgope9fEcBmgX7uRhRRerDtaGU-WUT53c2hHPwXKsPAgrSa1Pgf-Y4_tEMKJON_fvojoUg2FWtdIU9NbskSLUnc0PFkIf49ifosIvrKn5zrgoCVCeU3zJgMASddYUkVHUAPjsgeRzMlLjCjk5Y0GrocTD41t7JAuWaRaI2a63EIvYfJYRjbJpJ5V-looQDxUIy2IcoojYQ-GCz8vCzFfYAGGdwQbY",
+  "moreImages": [],
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-29T10:41:15.143Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-29T10:41:15.143Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "692acdcba0d3f18fea4a399c"
+  },
+  "productTitle": "Classic Leather Wallet",
+  "shortDescription": "Premium leather wallet with multiple compartments.",
+  "longDescription": "High-quality leather wallet designed for durability and style. Holds cash, cards, and coins securely.",
+  "rating": 4.1,
+  "price": 1299,
+  "quantity": 50,
+  "mainImageUrl": "https://lh3.googleusercontent.com/aida-public/AB6AXuAPR1AKIcDg8t3Tbe6MfJnnN-IDR5Zu9FmN9YAfrULgjFmMO7uigMoWP5vHBN0chNZ-t3X_f9vqnZ2WOLzo9lO69bPWZXebF7q3tKsD5wH7kw56PFbtLlybCzF1FQUjNHWtOGEPRLGnoSxZa_xVw_71Pvvy7eF8Pmte4frhflfan2BwS0rsW_sTLAJ9DN-5te99I5zNc3WpuzyWngjlzlR9KLvYICtVzDj7SvDbGuMgKRLjudt2ghW7RQI3osrLmqqayAWdAOkC0uDn",
+  "moreImages": [],
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-29T10:41:15.144Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-29T10:41:15.144Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "692acdcba0d3f18fea4a399d"
+  },
+  "productTitle": "Modern Desk Lamp",
+  "shortDescription": "LED desk lamp with adjustable brightness.",
+  "longDescription": "Sleek and modern LED lamp with multiple brightness levels and adjustable angle, perfect for study and work.",
+  "rating": 4.5,
+  "price": 1499,
+  "quantity": 30,
+  "mainImageUrl": "https://lh3.googleusercontent.com/aida-public/AB6AXuCRTmqKDkPAyPPB5BrS_t6AecKFfOatG-TiqO8QtPN5FExLk9i3IMg55d3xrBlS23UDHKoz1M6SnCYAhERKqzNVMIdDJ77dbAaPvh4Z1jwQh51Uw3nhB6p_dAW4QcBQQSywDXU5S2l7oB2rgVpihOXZAWV-g-57xv6w54vmENBlIEL2M43i2S2iSSRpNVKPfmpTXkfR6r2KAMSpK4IcJOd__WB22-oTYJQN1jlNQr1jnXXCSDQSFHjWytrJVowVVOjclW0qI03u2vZM",
+  "moreImages": [],
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-29T10:41:15.144Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-29T10:41:15.144Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "692acdcba0d3f18fea4a399e"
+  },
+  "productTitle": "Wireless Bluetooth Headphones",
+  "shortDescription": "High-fidelity sound with noise cancellation.",
+  "longDescription": "Experience superior sound quality and comfort with these wireless Bluetooth headphones. Long battery life and sleek design.",
+  "rating": 4.8,
+  "price": 3299,
+  "quantity": 60,
+  "mainImageUrl": "https://lh3.googleusercontent.com/aida-public/AB6AXuAvgQrEuu03DSw0t2i0PVO26YLGqaGar7GX2MD7YsmpK9JPnrPS5cLYrlNJdS10__SeWUaFVNC-4uGOlz0edjuRbNFyY1XujBkfyRKEFt0B2cY47iPlgRz6PIMCoWDghEtCrWNd6c60bV2B6rFP87OVL8djxOfQAIpsMUc9JDC7Y-OF-eG5rwrYrYwoUjJp8hHLl21e34MUlfYJrpPk2k0X8ULkvBiiwIH7YxSNla4BMHOShXkeSB7VpqrLDfYW9l2hsWI-ksgM7z_3",
+  "moreImages": [],
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-29T10:41:15.144Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-29T10:41:15.144Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "692acdcba0d3f18fea4a399f"
+  },
+  "productTitle": "Premium Coffee Mug",
+  "shortDescription": "Ceramic mug for hot beverages.",
+  "longDescription": "Durable and stylish ceramic coffee mug, perfect for enjoying your morning coffee or tea.",
+  "rating": 4.2,
+  "price": 499,
+  "quantity": 80,
+  "mainImageUrl": "https://lh3.googleusercontent.com/aida-public/AB6AXuBXFFsRk6Dve3_ASqAVEHO4hGzlR--0NEK_DHegggwJjwGjRpCFjuXxVzAZXdEyQOnkg4HZlfQm0HsJs8eMGGfv-uYXVwkp8Ims1S8FO0BV0H4ONmCw8JhOa2HRg9gdZJHc84XKsHlfxUC65idXgHH-GdXk57F7DTOJdr7XMz1RtTPHbpFkJ1oj9ojU_a2t7F-QHhKpSxUoqWh0eCU2aUDa14VCp3Zm5J8DBH_JZajrRGYn1ifTtzEAv6mF7VMeyEz7BaJvG6aZDUyw",
+  "moreImages": [],
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-29T10:41:15.144Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-29T10:41:15.144Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "692acdcba0d3f18fea4a39a0"
+  },
+  "productTitle": "Smart Fitness Tracker",
+  "shortDescription": "Track your steps, heart rate, and sleep.",
+  "longDescription": "Advanced fitness tracker with sleek design. Monitors daily activity, sleep patterns, and heart rate with precision.",
+  "rating": 4.6,
+  "price": 2599,
+  "quantity": 35,
+  "mainImageUrl": "https://lh3.googleusercontent.com/aida-public/AB6AXuDzz4-TTUpJUiMEyFvv431pHm4edxCXnbhD33DfF_D6ChZUU4V3twPyrTZJnC6_ReSiLXtePR-9fIuti13TOHOKoqUdW6TA4l2cPkr0VyH9Pf_uQoNEmNIOOnTAgOcdSJelDWL8IPXaazVpyspzMpq6jTYqMo7ys4bpnIRq5ueVNirWkQ18uvBc4tTe8MpDJiM7-ZVGBn3WIk5liHIvVKGyf1eBxPnB6yCmi8mZL-PqnjjiZhJEPMGWcKcqYfqWNRy-uhiihr0MP_YC",
+  "moreImages": [],
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-29T10:41:15.145Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-29T10:41:15.145Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "692acdcba0d3f18fea4a39a1"
+  },
+  "productTitle": "Luxury Sunglasses",
+  "shortDescription": "Stylish sunglasses with UV protection.",
+  "longDescription": "Protect your eyes while looking stylish. Premium lenses with full UV protection and lightweight design.",
+  "rating": 4.4,
+  "price": 1899,
+  "quantity": 45,
+  "mainImageUrl": "https://lh3.googleusercontent.com/aida-public/AB6AXuBaF5qGl3dIRj9Ux8L6XlV6hMriXfrAdadCmwi4SXM289zObWfuBPVY43AIAibjvup1rL8xuEifIEiYWFlNeBIjdsXtpzhOT7azCoemaI4CvZxKeKtSY4Vb_skhifgrmPMxznDI6CPa-mfF868vMTkr1d7Gf61m27vBKzd3m_HxTZV9XaSE_OMxwSQhnXDjc_Y9aIdbWbEsaXpuLhFveO845CItS0fnwSIf1G5ZqpvWgf-My4N0SJyOYZZGMfO1FVBswiBV4VsKq8NS",
+  "moreImages": [],
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-29T10:41:15.145Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-29T10:41:15.145Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "692acdcba0d3f18fea4a39a2"
+  },
+  "productTitle": "Travel Backpack",
+  "shortDescription": "Durable backpack with multiple compartments.",
+  "longDescription": "Ideal for travel and daily use. Spacious compartments, comfortable straps, and sturdy build make it a perfect companion.",
+  "rating": 4.3,
+  "price": 2799,
+  "quantity": 30,
+  "mainImageUrl": "https://lh3.googleusercontent.com/aida-public/AB6AXuBd0yQjTHalvau1eXSQRRnQzctXzUDMMfVz68oZt2Sooxz6Hd9J3kW3Dk9F2F9l4ARaeakRhuk854dPDWynRImwnIF_3JrPypaGBHjnLrf1s_QfKktluAcCozp0GGtX7jU5GA648xzMtpJWJiVwF4DYhASlu3EaCoy5cEJ2KPPeYJqqw2nYfXldgfSc2pk4IYfzHHFyfOtT27ueqkZDEjuKlANLx6HBTTC3J8X7cTLRuBlOUxqc2zORGrbgF1pYNKj_PtBVpNMexfuQ",
+  "moreImages": [],
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-29T10:41:15.145Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-29T10:41:15.145Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "692acdfa899d65dabaf61e20"
+  },
+  "productTitle": "Wireless Gaming Mouse",
+  "shortDescription": "High-precision RGB gaming mouse.",
+  "longDescription": "Ergonomic wireless mouse with customizable RGB lighting. High DPI sensor ensures precise control for gamers.",
+  "rating": 4.7,
+  "price": 1999,
+  "quantity": 50,
+  "mainImageUrl": "https://lh3.googleusercontent.com/aida-public/AB6AXuBhBCilDiazReku0dpUWyBBVQErVpqUDEjaYLmDXjmG1GtjuFtSYQRkgAgUXL1YbLyXzpjI_3wYex4QIq2CaNDwHcMmzZMkylCgE2ph6w1Otw_2OYvevRSTUwgyKJGxj_7kQ3ugGZhCTrObK-empM2nmxyPOw4f-LQqlf2LuXwm67eNjVpPEhOI5gOCldDl1l3_Eze7VmbSf-zBfL5IAK0eCElsEpJkonJNIPjEKM_IFUxJYXl4h7fS4kiAjr7vZJnw6CB0qg7XxgHs",
+  "moreImages": [],
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-29T10:42:02.794Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-29T10:42:02.794Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "692acdfa899d65dabaf61e21"
+  },
+  "productTitle": "Smartphone Holder",
+  "shortDescription": "Adjustable mobile stand for desk.",
+  "longDescription": "Keep your phone at the perfect angle while working or watching videos. Foldable and lightweight design.",
+  "rating": 4.4,
+  "price": 499,
+  "quantity": 120,
+  "mainImageUrl": "https://lh3.googleusercontent.com/aida-public/AB6AXuAcTGDQz859s2T6qDp6w8_pgI8uTShz8eSryC-kXo36HJVNfa7PENb4HwNPesYcZNsPvKxjausdcvtqEY-rxAZRHEscbPU7JBrWkqGhehxFi-xuEsU4GRjD9Owh1_lbhqKdz_q7FKy9eYfmIV40sYJzEL0Xc1iMyWALBhZqvEwUTuv5mqaqbELX9N-0HbyEbaltAwmeX1zonsTYQsJEDCWj3GiifQ4Pc7PbOEtwIUyK1fVmIEi2fW4oFQEenvnYXBKAv5tfeW_8otxU",
+  "moreImages": [],
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-29T10:42:02.797Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-29T10:42:02.797Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "692acdfa899d65dabaf61e22"
+  },
+  "productTitle": "Portable Power Bank",
+  "shortDescription": "10000mAh fast-charging power bank.",
+  "longDescription": "Compact and powerful power bank to charge your devices on the go. Dual USB ports and LED indicator included.",
+  "rating": 4.5,
+  "price": 999,
+  "quantity": 75,
+  "mainImageUrl": "https://lh3.googleusercontent.com/aida-public/AB6AXuC0lwFIlFFBvHSxz3n9OvtXdpG38Q5uMrpWNV-q4uWTtO07sSFhy8-xg7amG_8tzMBeLVeKnOrKb3aZYkU7JhgisqqFLUGuBKtzR8AUHBXen2AdBR1L9ZxxCWkUnJ100QWh17pVdHo9iWl9rewbO1fBb9reQjQiwiNpj-lECaTCJaFmmfaBneKg1037YbYER_Qr90P5zZMo9RloaqwFvX6RysNuzeRQHMlVT2vxGwIlmcfNSngFvi4cT0bG-SAX2rXiK6dxv5jiSSxR",
+  "moreImages": [],
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-29T10:42:02.797Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-29T10:42:02.797Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "692acdfa899d65dabaf61e23"
+  },
+  "productTitle": "Mini Bluetooth Speaker",
+  "shortDescription": "Compact speaker with clear sound.",
+  "longDescription": "Portable Bluetooth speaker delivering crisp sound and deep bass. Perfect for travel and small gatherings.",
+  "rating": 4.6,
+  "price": 799,
+  "quantity": 90,
+  "mainImageUrl": "https://lh3.googleusercontent.com/aida-public/AB6AXuDwG0C8UB-fFMppVRzVuoXJryMPmy-1fJjlAgL5SolMTNCL0NQa7GBaOXvbb8dG7fZwKsl4uaUx1IobzyOF3xzvfMp7dLFu3D2vk3nnrHbvDdjLBTimz8AaBy0yUntvVnPBE9tS8kbdzlmg-3TSKgD-WapUV8UBrK_Zf94MQXBrby-2TdQ_E4gKBetRrIzU8-REPnlJCODvGMu9QDdOGDIiBNrNORjm0tdNFIFXm0EAdMgPBrXy3iB1pollFKceaTWkC4jNSPrkPdTC",
+  "moreImages": [],
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-29T10:42:02.797Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-29T10:42:02.797Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "692acdfa899d65dabaf61e24"
+  },
+  "productTitle": "Digital Alarm Clock",
+  "shortDescription": "LED display with multiple alarm settings.",
+  "longDescription": "Modern digital alarm clock with adjustable brightness and snooze function. Perfect for bedside table.",
+  "rating": 4.3,
+  "price": 699,
+  "quantity": 65,
+  "mainImageUrl": "https://lh3.googleusercontent.com/aida-public/AB6AXuANjy5MtclUC2ikTJ3lueepmKJiuBZmre2cBShrIz8kqpWDwJ14fPlt5yMEL18kAyZBhZzs_qqj5m2Enszjkli3QfWcTXy0wFNs6w3gwSvETosMSFDWd07JsGxxssLkj1AF1-qsqXYBVBJMsjaP72APKlLug2Q1dD1G8wMk6k4UZ-6nywQP8DgEv8scRzUrD7aWnHTv-SV2kLCXRQohXPejl3T58uykODfswXUl0xyROxWi97DLmoWqezBsYy8ftzQdX_Wj1cUAhVDi",
+  "moreImages": [],
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-29T10:42:02.797Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-29T10:42:02.797Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "692acdfa899d65dabaf61e25"
+  },
+  "productTitle": "Canvas Wall Art",
+  "shortDescription": "Beautiful art prints for home decor.",
+  "longDescription": "Premium canvas wall art with vibrant colors. Ideal for living rooms, bedrooms, or office spaces.",
+  "rating": 4.5,
+  "price": 1599,
+  "quantity": 40,
+  "mainImageUrl": "https://lh3.googleusercontent.com/aida-public/AB6AXuDlXPmrP9gTKzKqsLWD5ue9Oikv_Xc6TsFHaxIs1QDJ6EG51-if23AszJuF8V7MGEoqQjWS4FEGs96O9OAWvJUVTOC8te3IbDqfSHb8YU3uH6HtrHO9M4Iuxo1XgZz5LC00cgWpX4uW8S3b8B87Ez7tbVWrZ0zzeRiSU2avPe4Ejk16dwLJvht2sdFU-_I21J__OVHKBgyENDoXwcy6Wov62UvzxcZC8Jg2je7rLchAtIdvJhprVOxN0w3F9-AI5q_DLVzv8sy6IOzT",
+  "moreImages": [],
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-29T10:42:02.798Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-29T10:42:02.798Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "692acdfa899d65dabaf61e26"
+  },
+  "productTitle": "Portable Water Bottle",
+  "shortDescription": "Eco-friendly stainless steel bottle.",
+  "longDescription": "Durable and lightweight stainless steel water bottle. Keeps beverages hot or cold for hours.",
+  "rating": 4.4,
+  "price": 599,
+  "quantity": 100,
+  "mainImageUrl": "https://lh3.googleusercontent.com/aida-public/AB6AXuC6dOvurR7E8fKqUrFeOWQAft-esbBTM7V-D5PayegFujXA-rAUgope9fEcBmgX7uRhRRerDtaGU-WUT53c2hHPwXKsPAgrSa1Pgf-Y4_tEMKJON_fvojoUg2FWtdIU9NbskSLUnc0PFkIf49ifosIvrKn5zrgoCVCeU3zJgMASddYUkVHUAPjsgeRzMlLjCjk5Y0GrocTD41t7JAuWaRaI2a63EIvYfJYRjbJpJ5V-looQDxUIy2IcoojYQ-GCz8vCzFfYAGGdwQbY",
+  "moreImages": [],
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-29T10:42:02.798Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-29T10:42:02.798Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "692acdfa899d65dabaf61e27"
+  },
+  "productTitle": "Noise Cancelling Earbuds",
+  "shortDescription": "Compact earbuds with deep bass.",
+  "longDescription": "Enjoy immersive sound with noise cancellation technology. Comfortable fit and long battery life.",
+  "rating": 4.6,
+  "price": 2499,
+  "quantity": 70,
+  "mainImageUrl": "https://lh3.googleusercontent.com/aida-public/AB6AXuAPR1AKIcDg8t3Tbe6MfJnnN-IDR5Zu9FmN9YAfrULgjFmMO7uigMoWP5vHBN0chNZ-t3X_f9vqnZ2WOLzo9lO69bPWZXebF7q3tKsD5wH7kw56PFbtLlybCzF1FQUjNHWtOGEPRLGnoSxZa_xVw_71Pvvy7eF8Pmte4frhflfan2BwS0rsW_sTLAJ9DN-5te99I5zNc3WpuzyWngjlzlR9KLvYICtVzDj7SvDbGuMgKRLjudt2ghW7RQI3osrLmqqayAWdAOkC0uDn",
+  "moreImages": [],
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-29T10:42:02.798Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-29T10:42:02.798Z"
+  }
+}]

@@ -24,3 +24,13 @@ export const signupApi = async (userData) => {
     throw error;
   }
 };
+
+export const getAllProducts = async () => {
+  try {
+    const response = await API.get('/api/get/products');
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching products:', error);
+    throw error;
+  }
+};

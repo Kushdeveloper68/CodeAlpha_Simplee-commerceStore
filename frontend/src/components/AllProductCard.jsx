@@ -1,4 +1,6 @@
-import React from 'react'
+import React, {useEffect , useCallback, useState} from 'react'
+import {NavLink, Navigate, useNavigate, Link} from 'react-router-dom'
+import {getAllProducts} from "../api"
 const colors = {
     primary: "#2563EB",
     backgroundLight: "#FFFFFF",
@@ -60,11 +62,30 @@ const productList = [
     },
 ];
 function AllProductCard() {
+    const [product , setProduct] = useState([]);
+  // get all product one time when page load
+    const fetchProducts = useCallback( async() => {
+        try {
+            const response = await getAllProducts();
+            console.log("Products fetched:", response);
+            setProduct(response);
+        } catch (error) {
+            console.error("Error fetching products:", error);
+        }
+    }, []);
+
+    useEffect(() => {
+        fetchProducts();
+    }, [fetchProducts]);
+
+
     return (
+        
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-            {productList.map(p => (
+            {product.map(p => (
+                <Link to={`/productdetails/${p._id}`} key={p._id}>
                 <div
-                    key={p.name}
+                    key={p.productTitle}
                     className="group relative flex flex-col overflow-hidden rounded-lg border shadow-sm transition-all hover:shadow-lg"
                     style={{
                         borderColor: col("#E5E7EB", "#374151"),
@@ -77,17 +98,17 @@ function AllProductCard() {
                     >
                         <img
                             className="h-full w-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
-                            alt={p.name}
-                            src={p.img}
+                            alt={p.productTitle}
+                            src={p.mainImageUrl}
                         />
                     </div>
                     <div className="flex flex-1 flex-col space-y-2 p-4">
-                        <h3 className="text-sm font-medium"
-                            style={{ color: col("#6B7280", "#9CA3AF") }}>{p.cat}</h3>
+                        {/* <h3 className="text-sm font-medium"
+                            style={{ color: col("#6B7280", "#9CA3AF") }}>{p.cat}</h3> */}
                         <p className="text-base font-semibold"
-                            style={{ color: col("#111827", "#fff") }}>{p.name}</p>
+                            style={{ color: col("#111827", "#fff") }}>{p.productTitle}</p>
                         <div className="flex items-center gap-1">
-                            {p.rating.map((s, i) => (
+                            {/* {p.rating.map((s, i) => (
                                 <span key={i} className="material-symbols-outlined !text-base"
                                     style={{
                                         fontVariationSettings: "'FILL' 1",
@@ -95,15 +116,23 @@ function AllProductCard() {
                                     }}>
                                     star
                                 </span>
-                            ))}
-                            <span className="text-xs ml-1"
+                            ))} */}
+                            <span key={p.productTitle} className="material-symbols-outlined !text-base"
+                                    style={{
+                                        fontVariationSettings: "'FILL' 1",
+                                         // yellow-400, gray-300/dark:gray-600
+                                    }}>
+                                        <p>{p.rating}</p>
+                                    star
+                                </span>
+                            {/* <span className="text-xs ml-1"
                                 style={{ color: col("#6B7280", "#9CA3AF") }}>
                                 ({p.reviews})
-                            </span>
+                            </span> */}
                         </div>
                         <div className="flex flex-1 flex-col justify-end">
                             <p className="text-lg font-bold"
-                                style={{ color: col("#111827", "#fff") }}>{p.price}</p>
+                                style={{ color: col("#111827", "#fff") }}>Price:{p.price}</p>
                         </div>
                     </div>
                     <button
@@ -116,6 +145,7 @@ function AllProductCard() {
                         <span className="material-symbols-outlined text-xl">add_shopping_cart</span>
                     </button>
                 </div>
+                </Link>
             ))}
         </div>
     )

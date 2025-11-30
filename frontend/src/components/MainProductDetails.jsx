@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect , useCallback, useState} from 'react'
 const isDark = false; // Set this if you add dark mode logic
 const col = (light, dark) => (isDark ? dark : light);
 const colors = {
@@ -6,7 +6,19 @@ const colors = {
   backgroundLight: "#FFFFFF",
   backgroundDark: "#111827",
 };
-function MainProductDetails() {
+function MainProductDetails({product = {}}) {
+  const [matchedProduct , setMatchedProduct] = useState({})
+  useEffect(() => {
+    setMatchedProduct(product);
+    console.log("Received product in MainProductDetails:", product);
+  }, [product]);
+
+  const [productQuantity, setProductQuantity] = useState(1)
+  useEffect(() => {
+    if(productQuantity > matchedProduct[0]?.quantity) {
+      setProductQuantity(matchedProduct[0]?.quantity);
+    }
+  }, [productQuantity, matchedProduct]);
   return ( 
   <> 
     {/* Main Product Section */}
@@ -16,8 +28,7 @@ function MainProductDetails() {
                 <div
                   className="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl"
                   style={{
-                    backgroundImage:
-                      'url("https://lh3.googleusercontent.com/aida-public/AB6AXuBkHzekQ5Fv48o2GuI6NfaG0Gl6QNFXIiX-2v7_3TwayAkzzqUB9GMbDWFJ1p-1ubRiC1iouPQTQgSMqUhYy0SLEk-pFGLwFJJIW4QJt4LiI98WRby_drQkxXwH8rXlqh55u8pRfKjGi-zv4CGwvKOaj_daL-zZigip8mEWW-Z6MaxzyGVPdNxh-FDfspTLStq4FeDQ6yentw-2fsdw0_vzBQJYBS8oM_OhqDeOEGJMhDZ81KaD3-brrw4mGENaGcwto3JAJAv1QDiQ")',
+                    backgroundImage:`url(${matchedProduct[0]?.mainImageUrl})`,
                     backgroundColor: col("#F3F4F6", "#1F2937"),
                   }}
                 ></div>
@@ -50,19 +61,19 @@ function MainProductDetails() {
                     className="text-3xl font-bold tracking-tight"
                     style={{ color: col("#1F2937", "#fff") }}
                   >
-                    AURA Pro Laptop - 15 inch
+                    {matchedProduct[0]?.productTitle}
                   </p>
                   <p
                     className="text-base"
                     style={{ color: col("#6B7280", "#9CA3AF") }}
                   >
-                    Experience unparalleled performance and stunning visuals with the new AURA Pro. Perfect for professionals and creatives.
+                    {matchedProduct[0]?.shortDescription}
                   </p>
                 </div>
                 {/* Ratings */}
                 <div className="flex items-center gap-2">
                   <div className="flex" style={{ color: "#F59E42" }}>
-                    {[0, 1, 2, 3].map(idx => (
+                    {/* {[0, 1, 2, 3].map(idx => (
                       <span
                         key={idx}
                         className="material-symbols-outlined !text-xl"
@@ -70,10 +81,18 @@ function MainProductDetails() {
                       >
                         star
                       </span>
-                    ))}
-                    <span className="material-symbols-outlined !text-xl">
+                    ))} */}
+                    <span
+                        key={matchedProduct[0]?.rating}
+                        className="material-symbols-outlined !text-xl"
+                        style={{ fontVariationSettings: "'FILL' 1", color: "#F59E42" }}
+                      >
+                        star
+                      </span>
+                      <p>{matchedProduct[0]?.rating}</p>
+                    {/* <span className="material-symbols-outlined !text-xl">
                       star_half
-                    </span>
+                    </span> */}
                   </div>
                   <a
                     className="text-sm hover:text-primary"
@@ -90,13 +109,13 @@ function MainProductDetails() {
                       className="text-3xl font-bold"
                       style={{ color: colors.primary }}
                     >
-                      $1,299.00
+                      ${matchedProduct[0]?.price}
                     </p>
                     <p
                       className="text-xl font-normal line-through"
                       style={{ color: col("#6B7280", "#9CA3AF") }}
                     >
-                      $1,499.00
+                      ${matchedProduct[0]?.price +500}
                     </p>
                   </div>
                   <div className="flex items-center gap-2" style={{ color: col("#16A34A", "#22D3EE") }}>
@@ -114,22 +133,32 @@ function MainProductDetails() {
                     className="flex items-center rounded-lg border p-1"
                     style={{ borderColor: col("#D1D5DB", "#4B5563") }}
                   >
-                    {["remove", "add"].map((icon, i) => (
-                      <button
-                        key={icon}
+                    
+                    <button
+                        key="remove"
                         className="flex items-center justify-center size-8 rounded hover:bg-[#F3F4F6]"
                         style={{ color: col("#6B7280", "#9CA3AF") }}
+                        onClick={() => setProductQuantity(prev => Math.max(1, prev - 1))}
+
                       >
-                        <span className="material-symbols-outlined text-xl">{icon}</span>
+                        <span className="material-symbols-outlined text-xl">remove</span>
                       </button>
-                    ))}
+
+                      <button
+                        key="add"
+                        className="flex items-center justify-center size-8 rounded hover:bg-[#F3F4F6]"
+                        style={{ color: col("#6B7280", "#9CA3AF") }}
+                        onClick={() => setProductQuantity(prev => prev + 1)}
+                      >
+                        <span className="material-symbols-outlined text-xl">add</span>
+                      </button>
                     <input
                       className="w-12 text-center bg-transparent border-0 focus:ring-0 font-medium"
                       style={{
                         color: col("#1F2937", "#fff"),
                       }}
                       type="text"
-                      value="1"
+                      value={productQuantity}
                       readOnly
                     />
                   </div>
@@ -186,12 +215,7 @@ function MainProductDetails() {
                   color: col("#6B7280", "#9CA3AF"),
                 }}
               >
-                <p>
-                  The AURA Pro is meticulously crafted for those who demand excellence. Featuring the latest generation processor, a brilliant Retina display with True Tone technology, and an all-day battery life, it's the ultimate tool for bringing your ideas to life.
-                </p>
-                <p>
-                  Its advanced thermal architecture ensures sustained performance during intensive tasks like video editing, 3D rendering, and compiling code. With a sleek, lightweight design and a range of powerful ports, the AURA Pro is designed to go wherever your work takes you.
-                </p>
+                <p>{matchedProduct[0]?.longDescription}</p>
               </div>
             </div>
             </>

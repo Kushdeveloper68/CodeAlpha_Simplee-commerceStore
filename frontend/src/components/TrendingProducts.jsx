@@ -1,4 +1,6 @@
-import React from 'react'
+import React, {useEffect , useCallback, useState} from 'react'
+import {getAllProducts} from "../api"
+import {NavLink, Navigate, useNavigate, Link} from 'react-router-dom'
 const colors = {
   primary: "#2563EB",
   backgroundLight: "#FFFFFF",
@@ -65,6 +67,22 @@ function get(mode, light, dark) {
 }
 
 function TrendingProducts() {
+  const [product , setProduct] = useState([]);
+    // get all product one time when page load
+      const fetchProducts = useCallback( async() => {
+          try {
+              const response = await getAllProducts();
+              console.log("Products fetched:", response);
+              setProduct(response);
+          } catch (error) {
+              console.error("Error fetching products:", error);
+          }
+      }, []);
+  
+      useEffect(() => {
+          fetchProducts();
+      }, [fetchProducts]);
+  
   return (
     <section>
       <h2
@@ -73,17 +91,20 @@ function TrendingProducts() {
         Trending Now
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
-        {products.map((p) => (
+        {product.map((p, i) => {
+          if (i >= 8) return null; // Limit to first 8 products
+          return (
+            <Link to={`/productdetails/${p._id}`} key={p._id}>
           <div
-            key={p.name}
+            key={p.productTitle}
             className="flex flex-col gap-4 rounded-lg p-4 group overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300"
             style={{ background: get(t, colors.cardLight, colors.cardDark) }}
           >
             <div className="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-lg"
-              style={{ backgroundImage: p.img }} />
+              style={{ backgroundImage:`url(${p.mainImageUrl})` }} />
             <div className="flex flex-col gap-2">
               <h3 className="text-base font-medium leading-normal truncate"
-                style={{ color: get(t, colors.textLight, colors.textDark) }}>{p.name}</h3>
+                style={{ color: get(t, colors.textLight, colors.textDark) }}>{p.productTitle}</h3>
               <p className="text-lg font-bold"
                 style={{ color: colors.primary }}>{p.price}</p>
             </div>
@@ -96,7 +117,9 @@ function TrendingProducts() {
               Add to Cart
             </button>
           </div>
-        ))}
+          </Link>
+          );
+        })}
       </div>
     </section>
   )
