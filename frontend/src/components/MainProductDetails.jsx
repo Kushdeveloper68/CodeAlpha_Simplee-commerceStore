@@ -18,7 +18,11 @@ function MainProductDetails({product = {}}) {
     if(productQuantity > matchedProduct[0]?.quantity) {
       setProductQuantity(matchedProduct[0]?.quantity);
     }
-  }, [productQuantity, matchedProduct]);
+  }, [productQuantity]);
+  
+  useEffect(() => {
+     setProductQuantity(1)
+  },[matchedProduct])
   return ( 
   <> 
     {/* Main Product Section */}
