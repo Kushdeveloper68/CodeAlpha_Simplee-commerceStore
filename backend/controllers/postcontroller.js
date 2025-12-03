@@ -142,6 +142,70 @@ async function login(req, res) {
   }
 }
 
+// ...existing code...
+
+// ADD TO CART
+async function addToCart(req, res) {
+  try {
+    const { productId, quantity } = req.body;
+    const userId = req.user?.id; // from middleware
+
+    // Validate required fields
+    if (!userId) {
+      return res.status(401).json({ success: false, message: 'User not authenticated. Please login first.' });
+    }
+
+    if (!productId || !quantity) {
+      return res.status(400).json({ success: false, message: 'Product ID and quantity are required' });
+    }
+
+    if (quantity <= 0) {
+      return res.status(400).json({ success: false, message: 'Quantity must be greater than 0' });
+    }
+
+    // Check if product exists
+    const product = await productModel.findById(productId);
+    if (!product) {
+      return res.status(404).json({ success: false, message: 'Product not found' });
+    }
+
+    // Check if product has enough quantity
+    if (product.quantity < quantity) {
+      return res.status(400).json({ success: false, message: `Only ${product.quantity} items available in stock` });
+    }
+
+    // Find user
+    const user = await UserModel.findById(userId);
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    // Check if product already exists in cart
+    const existingCartItem = user.cart.find(item => item.productId.toString() === productId);
+
+    if (existingCartItem) {
+      // Update quantity if product already in cart
+      existingCartItem.quantity += quantity;
+    } else {
+      // Add new item to cart
+      user.cart.push({ productId, quantity });
+    }
+
+    // Save user with updated cart
+    await user.save();
+
+    return res.status(200).json({
+      success: true,
+      message: 'Item added to cart successfully',
+      cart: user.cart
+    });
+  } catch (error) {
+    console.error('addToCart error:', error);
+    return res.status(500).json({ success: false, message: 'Error adding to cart', error: error.message });
+  }
+}
+
+
 async function productadd(req, res) {
     const data = [
   {
@@ -233,6 +297,7 @@ module.exports = {
   sendOtp,
   verifyOtpAndSignup,
   login,
-  productadd
+  productadd,
+  addToCart
 };
 // ...existing code...

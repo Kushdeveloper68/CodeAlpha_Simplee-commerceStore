@@ -46,6 +46,16 @@ export const verifySignupApi = async (data) => {
   }
 };
 
+export const addToCartApi = async (productId, quantity) => {
+  try {
+    const response = await API.post('/api/add-to-cart', { productId, quantity });
+    return response.data;
+  } catch (error) {
+    console.error('Error adding to cart:', error.response?.data);
+    return error.response?.data || { success: false, message: "Failed to add to cart" };
+  }
+};
+
 // export const signupApi = async (fullName, email, password) => {
 //   try {
 //     const response = await API.post('/api/signup', { fullName, email, password });
@@ -55,6 +65,7 @@ export const verifySignupApi = async (data) => {
 //     return error.response?.data || { success: false, message: "Signup failed" };
 //   }
 // };
+
 
 export const getAllProducts = async () => {
   try {

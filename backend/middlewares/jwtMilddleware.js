@@ -1,20 +1,33 @@
-// middle ware to verify JWT token from client requests
+// ...existing code...
 const jwt = require('jsonwebtoken');
-const secretKey = process.env.JWTKEY; // Use a strong secret key in production
 
-async function jwtMiddleware(req, res, next) {
-  const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ message: 'Authorization header missing or malformed' });
-    }
-    const token = authHeader.split(' ')[1];
+const secretKey = process.env.JWTKEY || 'kush123'; // fallback to match controller default for local dev
 
-    try {
+function jwtMiddleware(req, res, next) {
+  const authHeader = req.headers.authorization || req.headers.Authorization;
+  console.log("Auth Header:", authHeader);
+  // also accept token in cookie 'token' if needed
+  const tokenFromCookie = req.cookies && req.cookies.token;
+  let token = null;
+
+  if (authHeader && authHeader.startsWith('Bearer ')) {
+    token = authHeader.split(' ')[1];
+  } else if (tokenFromCookie) {
+    token = tokenFromCookie;
+  }
+
+  if (!token) {
+    return res.status(401).json({ success: false, message: 'Authorization token missing. Please login or signup.' });
+  }
+
+  try {
     const decoded = jwt.verify(token, secretKey);
-    req.user = decoded; // Attach decoded user info to request
-    next(); // Proceed to next middleware or route handler
-    } catch (error) {
-    return res.status(401).json({ message: 'Invalid or expired token' });
-    }
+    req.user = decoded; // { id, email, ... }
+    return next();
+  } catch (err) {
+    return res.status(401).json({ success: false, message: 'Invalid or expired token. Please login again.' });
+  }
 }
+
 module.exports = jwtMiddleware;
+// ...existing code...

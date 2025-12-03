@@ -19,7 +19,7 @@ export default function Productdetails() {
       const fetchProducts = useCallback( async() => {
           try {
               const response = await getAllProducts();
-              const matched = response.filter(p => p._id === id);
+              const matched = response.products.filter(p => p._id === id);
               SetMatchedProduct(matched);
               console.log("matched",matched)
           } catch (error) {
