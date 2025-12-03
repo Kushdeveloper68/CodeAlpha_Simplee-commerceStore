@@ -23,67 +23,7 @@ export default function Orderconformation() {
         <div className="flex flex-1 justify-center py-5">
           <div className="layout-content-container flex flex-col max-w-[960px] flex-1 px-4 sm:px-6 lg:px-8">
             {/* Header */}
-            <header
-              className="flex items-center justify-between whitespace-nowrap border-b border-solid px-6 py-4 rounded-xl"
-              style={{
-                background: col("#fff", "#1f2937"),
-                borderColor: col("#E5E7EB", "#22223B")
-              }}
-            >
-              <div className="flex items-center gap-4"
-                style={{ color: col("#1F2937", "#fff") }}
-              >
-                <div className="size-6" style={{ color: colors.primary }}>
-                  <svg fill="none" viewBox="0 0 48 48">
-                    <path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
-                  </svg>
-                </div>
-                <h2
-                  className="text-xl font-bold leading-tight"
-                  style={{ color: col("#1F2937", "#fff") }}
-                >
-                  ShopSmart
-                </h2>
-              </div>
-              {/* Middle Nav */}
-              <div className="hidden md:flex flex-1 justify-center gap-8">
-                <div className="flex items-center gap-9">
-                  {["Electronics", "Fashion", "Accessories", "Home"].map(txt => (
-                    <a
-                      key={txt}
-                      className="text-sm font-medium leading-normal hover:text-primary"
-                      style={{ color: col("#1F2937", "#D1D5DB") }}
-                      href="#"
-                    >
-                      {txt}
-                    </a>
-                  ))}
-                </div>
-              </div>
-              {/* Icons/Profile */}
-              <div className="flex items-center gap-3">
-                {["favorite", "shopping_cart"].map(icon => (
-                  <button
-                    key={icon}
-                    className="flex items-center justify-center rounded-lg h-10 bg-gray-100 gap-2 min-w-0 px-2.5 hover:bg-gray-200 text-sm font-bold leading-normal"
-                    style={{
-                      color: col("#1F2937", "#D1D5DB"),
-                      background: col("#F3F4F6", "#374151"),
-                    }}
-                  >
-                    <span className="material-symbols-outlined">{icon}</span>
-                  </button>
-                ))}
-                <div
-                  className="bg-center aspect-square bg-no-repeat bg-cover rounded-full size-10"
-                  style={{
-                    backgroundImage:
-                      "url('https://lh3.googleusercontent.com/aida-public/AB6AXuAA-f_Et3AGtQnTMgKXw5blGnC6dZtKVqIRY_K9IsBFms8lfajDwqgZl1_UfxEi5aaCkv8qCFBUWb1lxiaek2dPBr7mR9uDMpWEs5NK1PyQa9-jn8p4pKFbn2OsYoJQxsR5xKCt2YXkC0RJyieNh3kVJjeA3vLbEimQf6yqBOlSzajIowhdK2zTKpxI1PImCnPWecUJjT2jDNuXsdo11UGmW0tWJI7aN-9nxOCOP40Jki609Tijp7JKq064nZb_yMIRT8lEYqoN0OXs')"
-                  }}
-                  title="User profile picture"
-                ></div>
-              </div>
-            </header>
+           
             {/* Main */}
             <main className="flex-grow pt-10 pb-16">
               {/* Confirmation Message */}
@@ -319,29 +259,7 @@ export default function Orderconformation() {
               </div>
             </main>
             {/* Footer */}
-            <footer
-              className="text-center py-8 border-t mt-8"
-              style={{ borderColor: col("#E5E7EB", "#22223B") }}
-            >
-              <p
-                className="text-sm"
-                style={{ color: col("#6B7280", "#9CA3AF") }}
-              >
-                © 2024 ShopSmart. All rights reserved.
-              </p>
-              <div className="flex justify-center gap-4 mt-4">
-                {["Customer Service", "FAQ", "Privacy Policy"].map(link => (
-                  <a
-                    key={link}
-                    className="text-sm hover:text-primary"
-                    style={{ color: col("#6B7280", "#9CA3AF") }}
-                    href="#"
-                  >
-                    {link}
-                  </a>
-                ))}
-              </div>
-            </footer>
+            
           </div>
         </div>
       </div>

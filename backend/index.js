@@ -9,6 +9,9 @@ const port = process.env.PORT || 5000
 const { mongodbConnection } = require("./connection/connection.js")
 const postRouter = require("./routes/postroute.js")
 const getRouter = require("./routes/getroute.js")
+const jwtMiddleware = require("./middlewares/jwtMilddleware.js")
+
+// middleware to verify JWT token
 
 // body parser
 app.use(bodyPraser.json())
@@ -23,7 +26,6 @@ app.use(cors({
 
 // connection
 mongodbConnection(process.env.MONGOURL || "mongodb://localhost:27017/EcommerceStore")
-
 
 
 app.use("/api", postRouter);

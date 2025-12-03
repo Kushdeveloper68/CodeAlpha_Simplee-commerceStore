@@ -22,39 +22,7 @@ export default function Checkout() {
     >
       <div className="layout-container flex h-full grow flex-col">
         {/* TopNavBar */}
-        <header
-          className="flex items-center justify-between whitespace-nowrap border-b border-solid px-6 sm:px-10 lg:px-20 py-4"
-          style={{
-            backgroundColor: col("#fff", colors.backgroundDark),
-            borderBottomColor: col("#E5E7EB", "#22223B"),
-          }}
-        >
-          <div className="flex items-center gap-4"
-            style={{
-              color: col("#1F2937", "#fff"),
-            }}>
-            <div className="size-6" style={{ color: colors.primary }}>
-              <svg fill="none" viewBox="0 0 48 48">
-                <path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z"
-                  fill="currentColor"
-                />
-              </svg>
-            </div>
-            <h2 className="text-xl font-bold leading-tight tracking-tighter">ShopSmart</h2>
-          </div>
-          <div className="flex flex-1 justify-end">
-            <a
-              className="flex items-center gap-2 text-sm font-medium hover:text-primary transition-colors"
-              style={{
-                color: col("#374151", "#D1D5DB")
-              }}
-              href="#"
-            >
-              <span className="material-symbols-outlined text-base">arrow_back</span>
-              Back to Cart
-            </a>
-          </div>
-        </header>
+        
 
         {/* Main Checkout Content */}
         <main className="flex-1 px-4 sm:px-6 lg:px-8 py-8 lg:py-12">

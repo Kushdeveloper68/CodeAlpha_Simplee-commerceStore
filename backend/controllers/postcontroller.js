@@ -1,35 +1,142 @@
+// ...existing code...
 const express = require('express');
-const {UserModel,productModel} = require('../models');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+const nodemailer = require('nodemailer');
+const { UserModel, productModel,OtpModel } = require('../models');
+// new
 
-// SIGN UP
-async function signUp(req, res) {
+const JWT_SECRET = process.env.JWTKEY || 'kush123';
+const OTP_TTL_MINUTES = 10;
+
+// configure nodemailer transporter (expects env EMAIL_USER and EMAIL_PASS)
+const transporter = nodemailer.createTransport({
+      host: 'smtp.gmail.com',
+      port: 587,
+      secure: false,
+      auth: {
+        user: process.env.EMAIL, // your gmail
+        pass: process.env.PASS // your app password
+      }
+});
+
+// helper to generate numeric OTP
+function generateOtp() {
+  return String(Math.floor(100000 + Math.random() * 900000)); // 6-digit
+}
+
+// SEND OTP
+async function sendOtp(req, res) {
   try {
-    const { fullName, email, password } = req.body;
-    console.log(req.body)
-    if (!fullName || !email || !password) {
-        return res.status(400).json({ message: 'All fields are required' });
-    }
-    const registeredUser = await UserModel.findOne({ email });
-    if (registeredUser) {
-      return res.status(409).json({ message: 'Email already in use' });
-    }
-    const newUser = await UserModel.create({ fullName, email, password });
-    if(!newUser) res.status(400).json({ message: 'User registration failed' });
-    res.status(201).json({ message: 'User registered successfully', user: newUser });
+    const { email } = req.body;
+    if (!email) return res.status(400).json({ success: false, message: 'Email is required' });
+
+    const otp = generateOtp();
+    const otpHash = await bcrypt.hash(otp, 10);
+    const expiresAt = new Date(Date.now() + OTP_TTL_MINUTES * 60 * 1000);
+
+    // upsert OTP for this email
+    await OtpModel.findOneAndUpdate(
+      { email: email.toLowerCase().trim() },
+      { otpHash, expiresAt, createdAt: new Date() },
+      { upsert: true, new: true }
+    );
+
+    // send email
+    const mailOptions = {
+      from: process.env.EMAIL_FROM || process.env.EMAIL_USER,
+      to: email,
+      subject: 'Your ShopSmart OTP',
+      text: `Your verification code is ${otp}. It will expire in ${OTP_TTL_MINUTES} minutes.`,
+      html: `<p>Your verification code is <b>${otp}</b>. It will expire in ${OTP_TTL_MINUTES} minutes.</p>`
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    return res.status(200).json({ success: true, message: 'OTP sent to email' });
   } catch (error) {
-    res.status(500).json({ message: 'Error registering user', error: error.message });
+    console.error('sendOtp error:', error);
+    return res.status(500).json({ success: false, message: 'Failed to send OTP', error: error.message });
   }
 }
 
-// LOGIN
+// VERIFY OTP and SIGNUP
+async function verifyOtpAndSignup(req, res) {
+  try {
+    const { fullName, email, password, otp } = req.body;
+    if (!fullName || !email || !password || !otp) {
+      return res.status(400).json({ success: false, message: 'All fields and otp are required' });
+    }
+
+    const emailNorm = email.toLowerCase().trim();
+
+    // find OTP record
+    const otpDoc = await OtpModel.findOne({ email: emailNorm });
+    if (!otpDoc) {
+      return res.status(400).json({ success: false, message: 'OTP not found or expired' });
+    }
+
+    if (otpDoc.expiresAt < new Date()) {
+      await OtpModel.deleteOne({ _id: otpDoc._id });
+      return res.status(400).json({ success: false, message: 'OTP expired' });
+    }
+
+    const isMatch = await bcrypt.compare(String(otp), otpDoc.otpHash);
+    if (!isMatch) {
+      return res.status(400).json({ success: false, message: 'Invalid OTP' });
+    }
+
+    // check existing user
+    const existing = await UserModel.findOne({ email: emailNorm });
+    if (existing) {
+      await OtpModel.deleteOne({ _id: otpDoc._id }); // cleanup
+      return res.status(409).json({ success: false, message: 'Email already registered' });
+    }
+
+    // hash password
+    const hashed = await bcrypt.hash(password, 10);
+
+    const newUser = await UserModel.create({
+      fullName,
+      email: emailNorm,
+      password: hashed
+    });
+
+    // remove otp doc
+    await OtpModel.deleteOne({ _id: otpDoc._id });
+
+    // generate JWT
+    const token = jwt.sign({ id: newUser._id, email: newUser.email }, JWT_SECRET, { expiresIn: '24h' });
+
+    return res.status(201).json({
+      success: true,
+      message: 'Signup successful',
+      token,
+      user: { id: newUser._id, fullName: newUser.fullName, email: newUser.email }
+    });
+  } catch (error) {
+    console.error('verifyOtpAndSignup error:', error);
+    return res.status(500).json({ success: false, message: 'Error during signup', error: error.message });
+  }
+}
+
+// keep existing signup/login/productadd if you want them as well
+// existing signUp function (optional) - keep or remove depending on flow
+
+// LOGIN (update to use bcrypt)
 async function login(req, res) {
   try {
     const { email, password } = req.body;
-    const user = await UserModel.findOne({ email, password });
-    if (!user) {
-      return res.status(401).json({ message: 'Invalid email or password' });
-    }
-    res.status(200).json({ message: 'Login successful', user });
+    if (!email || !password) return res.status(400).json({ message: 'Email and password required' });
+
+    const user = await UserModel.findOne({ email: email.toLowerCase().trim() });
+    if (!user) return res.status(401).json({ message: 'Invalid email or password' });
+
+    const match = await bcrypt.compare(password, user.password);
+    if (!match) return res.status(401).json({ message: 'Invalid email or password' });
+
+    const token = jwt.sign({ id: user._id, email: user.email }, JWT_SECRET, { expiresIn: '24h' });
+    res.status(200).json({ success: true, message: 'Login successful', token, user: { id: user._id, fullName: user.fullName, email: user.email } });
   } catch (error) {
     res.status(500).json({ message: 'Error logging in', error: error.message });
   }
@@ -123,7 +230,9 @@ async function productadd(req, res) {
     res.status(201).json({ message: 'Products added successfully' });
 }
 module.exports = {
-    signUp,
-    login,
-    productadd
-}
+  sendOtp,
+  verifyOtpAndSignup,
+  login,
+  productadd
+};
+// ...existing code...

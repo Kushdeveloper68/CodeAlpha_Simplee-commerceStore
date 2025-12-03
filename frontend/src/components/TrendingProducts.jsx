@@ -1,6 +1,7 @@
 import React, {useEffect , useCallback, useState} from 'react'
 import {getAllProducts} from "../api"
 import {NavLink, Navigate, useNavigate, Link} from 'react-router-dom'
+import {useApi} from "../api"
 const colors = {
   primary: "#2563EB",
   backgroundLight: "#FFFFFF",
@@ -67,12 +68,12 @@ function get(mode, light, dark) {
 }
 
 function TrendingProducts() {
+  const api = useApi();
   const [product , setProduct] = useState([]);
     // get all product one time when page load
       const fetchProducts = useCallback( async() => {
           try {
               const response = await getAllProducts();
-              console.log("Products fetched:", response);
               setProduct(response);
           } catch (error) {
               console.error("Error fetching products:", error);
@@ -94,12 +95,12 @@ function TrendingProducts() {
         {product.map((p, i) => {
           if (i >= 8) return null; // Limit to first 8 products
           return (
-            <Link to={`/productdetails/${p._id}`} key={p._id}>
+            
           <div
             key={p.productTitle}
             className="flex flex-col gap-4 rounded-lg p-4 group overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300"
             style={{ background: get(t, colors.cardLight, colors.cardDark) }}
-          >
+          ><Link to={`/productdetails/${p._id}`} key={p._id}>
             <div className="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-lg"
               style={{ backgroundImage:`url(${p.mainImageUrl})` }} />
             <div className="flex flex-col gap-2">
@@ -108,6 +109,7 @@ function TrendingProducts() {
               <p className="text-lg font-bold"
                 style={{ color: colors.primary }}>{p.price}</p>
             </div>
+            </Link>
             <button className="flex items-center justify-center w-full rounded-lg h-10 px-4 text-sm font-bold transition-colors duration-300"
               style={{
                 background: get(t, "rgba(37,99,235,0.2)", "rgba(37,99,235,0.3)"),
@@ -116,8 +118,9 @@ function TrendingProducts() {
               <span className="material-symbols-outlined text-base mr-2">add_shopping_cart</span>
               Add to Cart
             </button>
+
           </div>
-          </Link>
+          
           );
         })}
       </div>

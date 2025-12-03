@@ -83,7 +83,7 @@ function AllProductCard() {
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
             {product.map(p => (
-                <Link to={`/productdetails/${p._id}`} key={p._id}>
+               
                 <div
                     key={p.productTitle}
                     className="group relative flex flex-col overflow-hidden rounded-lg border shadow-sm transition-all hover:shadow-lg"
@@ -92,6 +92,7 @@ function AllProductCard() {
                         background: col("#F9FAFB", "rgba(31,22,33,0.5)"),
                     }}
                 >
+                     <Link to={`/productdetails/${p._id}`} key={p._id}>
                     <div
                         className="aspect-square bg-white overflow-hidden"
                         style={{ background: col("#fff", "#1F2937") }}
@@ -135,6 +136,7 @@ function AllProductCard() {
                                 style={{ color: col("#111827", "#fff") }}>Price:{p.price}</p>
                         </div>
                     </div>
+                    </Link>
                     <button
                         className="absolute bottom-4 right-4 h-10 w-10 flex items-center justify-center rounded-full opacity-0 group-hover:opacity-100 transition-opacity transform group-hover:scale-100 scale-90 duration-200 shadow-lg hover:bg-primary/90"
                         style={{
@@ -145,7 +147,7 @@ function AllProductCard() {
                         <span className="material-symbols-outlined text-xl">add_shopping_cart</span>
                     </button>
                 </div>
-                </Link>
+                
             ))}
         </div>
     )

@@ -1,29 +1,60 @@
 import axios from 'axios';
+import { useAuth } from '../context/authContext'; // Import hook
 
 const API = axios.create({
-  baseURL: 'http://localhost:5000/', // Update with your backend API URL
+  baseURL: 'http://localhost:5000/',
   withCredentials: true,
 });
+
+// Add request interceptor to attach token to every request
+export function useApi() {
+  const { authToken } = useAuth();
+
+  API.interceptors.request.use((config) => {
+    if (authToken) {
+      config.headers['Authorization'] = `Bearer ${authToken}`;
+    }
+    return config;
+  });
+
+  return API;
+}
 
 export const loginApi = async (email, password) => {
   try {
     const response = await API.post('/api/login', { email, password });
-    return response.data;
+    return response.data; // Should return { success: true, token: "...", user: {...} }
   } catch (error) {
-    console.error('Error logging in:', error);
-    throw error;
+    console.error('Error logging in:', error.response?.data);
+    return error.response?.data || { success: false, message: "Login failed" };
   }
 };
 
-export const signupApi = async (userData) => {
+export const sendOtpApi = async (email) => {
+  const response = await API.post('/api/send-otp', { email });
+  return response.data;
+};
+
+export const verifySignupApi = async (data) => {
   try {
-    const response = await API.post('/api/signup', userData);
-    return response.data;
+  // data: { fullName, email, password, otp }
+  const response = await API.post('/api/verify-signup', data);
+  return response.data;
   } catch (error) {
-    console.error('Error signing up student:', error);
-    throw error;
+    console.error('Error verifying signup:', error.response?.data);
+    return error.response?.data || { success: false, message: "Signup verification failed" };
   }
 };
+
+// export const signupApi = async (fullName, email, password) => {
+//   try {
+//     const response = await API.post('/api/signup', { fullName, email, password });
+//     return response.data; // Should return { success: true, token: "...", user: {...} }
+//   } catch (error) {
+//     console.error('Error signing up:', error.response?.data);
+//     return error.response?.data || { success: false, message: "Signup failed" };
+//   }
+// };
 
 export const getAllProducts = async () => {
   try {
@@ -31,6 +62,19 @@ export const getAllProducts = async () => {
     return response.data;
   } catch (error) {
     console.error('Error fetching products:', error);
-    throw error;
+    return error.response?.data || { success: false, message: "Failed to fetch products" };
   }
 };
+
+// Example: Protected API call (with token in header)
+export const getProtectedData = async () => {
+  try {
+    const response = await API.get('/api/protected-route');
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching protected data:', error);
+    return error.response?.data || { success: false, message: "Failed to fetch data" };
+  }
+};
+
+export default API;
