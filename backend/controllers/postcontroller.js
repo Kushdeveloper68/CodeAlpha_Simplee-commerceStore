@@ -206,12 +206,218 @@ async function addToCart(req, res) {
 }
 
 
+// ...existing code...
+
+// REMOVE FROM CART
+async function removeFromCart(req, res) {
+  try {
+    const { productId } = req.body;
+    const userId = req.user?.id;
+
+    if (!userId) {
+      return res.status(401).json({ success: false, message: 'User not authenticated' });
+    }
+
+    if (!productId) {
+      return res.status(400).json({ success: false, message: 'Product ID is required' });
+    }
+
+    const user = await UserModel.findById(userId);
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    // Remove product from cart
+    user.cart = user.cart.filter(item => item.productId.toString() !== productId);
+    await user.save();
+
+    return res.status(200).json({
+      success: true,
+      message: 'Item removed from cart successfully',
+      cart: user.cart
+    });
+  } catch (error) {
+    console.error('removeFromCart error:', error);
+    return res.status(500).json({ success: false, message: 'Error removing from cart', error: error.message });
+  }
+}
+
+// UPDATE CART ITEM QUANTITY
+async function updateCartQuantity(req, res) {
+  try {
+    const { productId, quantity } = req.body;
+    const userId = req.user?.id;
+
+    if (!userId) {
+      return res.status(401).json({ success: false, message: 'User not authenticated' });
+    }
+
+    if (!productId || quantity === undefined) {
+      return res.status(400).json({ success: false, message: 'Product ID and quantity are required' });
+    }
+
+    if (quantity <= 0) {
+      return res.status(400).json({ success: false, message: 'Quantity must be greater than 0' });
+    }
+
+    const user = await UserModel.findById(userId);
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    // Check if product exists in cart
+    const cartItem = user.cart.find(item => item.productId.toString() === productId);
+    if (!cartItem) {
+      return res.status(404).json({ success: false, message: 'Item not found in cart' });
+    }
+
+    // Check product availability
+    const product = await productModel.findById(productId);
+    if (!product) {
+      return res.status(404).json({ success: false, message: 'Product not found' });
+    }
+
+    if (product.quantity < quantity) {
+      return res.status(400).json({ success: false, message: `Only ${product.quantity} items available in stock` });
+    }
+
+    // Update quantity
+    cartItem.quantity = quantity;
+    await user.save();
+
+    return res.status(200).json({
+      success: true,
+      message: 'Cart item quantity updated successfully',
+      cart: user.cart
+    });
+  } catch (error) {
+    console.error('updateCartQuantity error:', error);
+    return res.status(500).json({ success: false, message: 'Error updating cart', error: error.message });
+  }
+}
+
+// Add these new functions
+
+// UPDATE USER ADDRESS
+async function updateUserAddress(req, res) {
+  try {
+    const { streetAddress, apartment, city, stateOrProvince, postalCode, country } = req.body;
+    const userId = req.user?.id;
+
+    if (!userId) {
+      return res.status(401).json({ success: false, message: 'User not authenticated' });
+    }
+
+    if (!streetAddress || !city || !postalCode || !country) {
+      return res.status(400).json({ success: false, message: 'Please provide all required address fields' });
+    }
+
+    const user = await UserModel.findById(userId);
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    // Update address
+    user.address = {
+      streetAddress,
+      apartment: apartment || '',
+      city,
+      stateOrProvince: stateOrProvince || '',
+      postalCode,
+      country
+    };
+
+    await user.save();
+
+    return res.status(200).json({
+      success: true,
+      message: 'Address updated successfully',
+      address: user.address
+    });
+  } catch (error) {
+    console.error('updateUserAddress error:', error);
+    return res.status(500).json({ success: false, message: 'Error updating address', error: error.message });
+  }
+}
+
+// CREATE ORDER FROM CART
+async function createOrder(req, res) {
+  try {
+    const { streetAddress, apartment, city, stateOrProvince, postalCode, country } = req.body;
+    const userId = req.user?.id;
+
+    if (!userId) {
+      return res.status(401).json({ success: false, message: 'User not authenticated' });
+    }
+
+    if (!streetAddress || !city || !postalCode || !country) {
+      return res.status(400).json({ success: false, message: 'Please provide all required address fields' });
+    }
+
+    const user = await UserModel.findById(userId);
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    if (!user.cart || user.cart.length === 0) {
+      return res.status(400).json({ success: false, message: 'Cart is empty' });
+    }
+
+    // Create order from cart items
+    const orderItems = user.cart.map(item => ({
+      productId: item.productId,
+      quantity: item.quantity
+    }));
+
+    const shippingDetails = {
+      streetAddress,
+      apartment: apartment || '',
+      city,
+      stateOrProvince: stateOrProvince || '',
+      postalCode,
+      country
+    };
+
+    // Create new order
+    const newOrder = {
+      items: orderItems,
+      shippingDetails,
+      status: 'pending',
+      createdAt: new Date()
+    };
+
+    // Add order to user
+    user.orders.push(newOrder);
+
+    // Clear cart
+    user.cart = [];
+
+    // Update user address
+    user.address = shippingDetails;
+
+    await user.save();
+
+    return res.status(201).json({
+      success: true,
+      message: 'Order created successfully',
+      order: newOrder,
+      orderId: newOrder._id
+    });
+  } catch (error) {
+    console.error('createOrder error:', error);
+    return res.status(500).json({ success: false, message: 'Error creating order', error: error.message });
+  }
+}
+
+
+
+
 async function productadd(req, res) {
-    const data = [
-  {
-    "productTitle": "Wireless Gaming Mouse",
-    "shortDescription": "High-precision RGB gaming mouse.",
-    "longDescription": "Ergonomic wireless mouse with customizable RGB lighting. High DPI sensor ensures precise control for gamers.",
+  const data = [
+    {
+      "productTitle": "Wireless Gaming Mouse",
+      "shortDescription": "High-precision RGB gaming mouse.",
+      "longDescription": "Ergonomic wireless mouse with customizable RGB lighting. High DPI sensor ensures precise control for gamers.",
     "rating": 4.7,
     "price": 1999,
     "quantity": 50,
@@ -293,11 +499,17 @@ async function productadd(req, res) {
     await productModel.insertMany(data);
     res.status(201).json({ message: 'Products added successfully' });
 }
+// Export all functions
 module.exports = {
   sendOtp,
   verifyOtpAndSignup,
   login,
   productadd,
-  addToCart
+  addToCart,
+  removeFromCart,
+  updateCartQuantity,
+  updateUserAddress,
+  createOrder
 };
-// ...existing code...
+
+      

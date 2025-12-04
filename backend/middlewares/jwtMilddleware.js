@@ -5,7 +5,7 @@ const secretKey = process.env.JWTKEY || 'kush123'; // fallback to match controll
 
 function jwtMiddleware(req, res, next) {
   const authHeader = req.headers.authorization || req.headers.Authorization;
-  console.log("Auth Header:", authHeader);
+
   // also accept token in cookie 'token' if needed
   const tokenFromCookie = req.cookies && req.cookies.token;
   let token = null;

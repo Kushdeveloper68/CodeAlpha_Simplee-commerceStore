@@ -77,6 +77,89 @@ export const getAllProducts = async () => {
   }
 };
 
+
+// GET USER CART
+export const getUserCartApi = async () => {
+  try {
+    const response = await API.get('/api/get/cart');
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching cart:', error.response?.data);
+    return error.response?.data || { success: false, message: "Failed to fetch cart" };
+  }
+};
+
+// REMOVE ITEM FROM CART
+export const removeFromCartApi = async (productId) => {
+  try {
+    const response = await API.post('/api/remove-from-cart', { productId });
+    return response.data;
+  } catch (error) {
+    console.error('Error removing from cart:', error.response?.data);
+    return error.response?.data || { success: false, message: "Failed to remove from cart" };
+  }
+};
+
+// UPDATE CART ITEM QUANTITY
+export const updateCartQuantityApi = async (productId, quantity) => {
+  try {
+    const response = await API.post('/api/update-cart-quantity', { productId, quantity });
+    return response.data;
+  } catch (error) {
+    console.error('Error updating cart:', error.response?.data);
+    return error.response?.data || { success: false, message: "Failed to update cart" };
+  }
+};
+
+
+
+
+// Add these new functions to your existing file
+
+// GET USER ADDRESS
+export const getUserAddressApi = async () => {
+  try {
+    const response = await API.get('/api/get/user-address');
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching user address:', error.response?.data);
+    return error.response?.data || { success: false, message: "Failed to fetch user address" };
+  }
+};
+
+// UPDATE OR CREATE USER ADDRESS
+export const updateUserAddressApi = async (addressData) => {
+  try {
+    const response = await API.post('/api/update-address', addressData);
+    return response.data;
+  } catch (error) {
+    console.error('Error updating address:', error.response?.data);
+    return error.response?.data || { success: false, message: "Failed to update address" };
+  }
+};
+
+// CREATE ORDER (from cart)
+export const createOrderApi = async (shippingDetails) => {
+  try {
+    const response = await API.post('/api/create-order', shippingDetails);
+    return response.data;
+  } catch (error) {
+    console.error('Error creating order:', error.response?.data);
+    return error.response?.data || { success: false, message: "Failed to create order" };
+  }
+};
+
+// GET USER ORDERS
+export const getUserOrdersApi = async () => {
+  try {
+    const response = await API.get('/api/get/user-orders');
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching orders:', error.response?.data);
+    return error.response?.data || { success: false, message: "Failed to fetch orders" };
+  }
+};
+
 // Example: Protected API call (with token in header)
 export const getProtectedData = async () => {
   try {

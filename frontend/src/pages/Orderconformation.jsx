@@ -1,5 +1,6 @@
-// OrderConfirmation.jsx
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { getAllProducts } from "../api";
 
 const colors = {
   primary: "#2563eb",
@@ -7,10 +8,121 @@ const colors = {
   backgroundDark: "#111621",
 };
 
-const isDark = false; // Set to true for dark mode
+const isDark = false;
 const col = (light, dark) => (isDark ? dark : light);
 
+function formatCurrency(value) {
+  return (Number(value) || 0).toFixed(2);
+}
+
 export default function Orderconformation() {
+  const { state } = useLocation();
+  const navigate = useNavigate();
+  const order = state?.order;
+  const totalsFromState = state?.totals;
+
+  const [productsMap, setProductsMap] = useState(null);
+  const [loadingProducts, setLoadingProducts] = useState(false);
+  const [fetchError, setFetchError] = useState("");
+
+  useEffect(() => {
+    if (!order) {
+      navigate("/", { replace: true });
+    }
+  }, [order, navigate]);
+
+  // If order exists but items don't include product details, fetch products
+  useEffect(() => {
+    let needsFetch = false;
+    if (!order) return;
+
+    for (const it of order.items || []) {
+      if (!it.productTitle || !it.price || !it.mainImageUrl) {
+        needsFetch = true;
+        break;
+      }
+    }
+
+    if (!needsFetch) {
+      // no fetch required
+      return;
+    }
+
+    const loadProducts = async () => {
+      try {
+        setLoadingProducts(true);
+        setFetchError("");
+        const res = await getAllProducts();
+        // res is expected { success: true, products: [...] } (or products directly)
+        const products = res?.products ?? res?.data ?? res ?? [];
+        const map = {};
+        for (const p of products) {
+          if (!p) continue;
+          const id = String(p._id ?? p.id ?? p._id?.toString?.());
+          map[id] = p;
+        }
+        setProductsMap(map);
+      } catch (err) {
+        console.error("Error loading products for order page:", err);
+        setFetchError("Failed to load product information.");
+      } finally {
+        setLoadingProducts(false);
+      }
+    };
+
+    loadProducts();
+  }, [order]);
+
+  // Build display items using order item fields first, fallback to fetched products map
+  const displayItems = useMemo(() => {
+    if (!order) return [];
+
+    const map = productsMap || {};
+    return (order.items || []).map((it) => {
+      // productId may be a string or an object with _id
+      const rawPid = it.productId;
+      const pid = rawPid && (rawPid._id ? String(rawPid._id) : String(rawPid));
+
+      const prod = map[pid];
+
+      const productTitle = it.productTitle || prod?.productTitle || pid;
+      const mainImageUrl = it.mainImageUrl || prod?.mainImageUrl || "";
+      // price may be included, else use product price
+      const unitPrice = it.price ?? prod?.price ?? 0;
+      const quantity = it.quantity ?? it.cartQuantity ?? 1;
+      const totalPrice = it.totalPrice ?? (unitPrice * quantity);
+
+      return {
+        productId: pid,
+        productTitle,
+        mainImageUrl,
+        price: unitPrice,
+        quantity,
+        totalPrice,
+      };
+    });
+  }, [order, productsMap]);
+
+  // Compute totals (prefer passed totals, then order fields, then compute)
+  const totals = useMemo(() => {
+    if (totalsFromState) return totalsFromState;
+    if (!order) return { subtotal: 0, shipping: 0, tax: 0, total: 0 };
+    const subtotal = order.subtotal ?? displayItems.reduce((s, i) => s + (i.totalPrice || 0), 0);
+    const shipping = order.shipping ?? 5.0 * (displayItems.length > 0 ? 1 : 0);
+    const tax = order.tax ?? +(subtotal * 0.05).toFixed(2);
+    const total = order.total ?? +(subtotal + shipping + tax).toFixed(2);
+    return {
+      subtotal: Number(subtotal),
+      shipping: Number(shipping),
+      tax: Number(tax),
+      total: Number(total),
+    };
+  }, [totalsFromState, order, displayItems]);
+
+  if (!order) return null;
+
+  const createdAt = order.createdAt ? new Date(order.createdAt).toLocaleString() : "";
+
   return (
     <div
       className="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden"
@@ -19,250 +131,152 @@ export default function Orderconformation() {
         fontFamily: "'Inter', sans-serif",
       }}
     >
-      <div className="flex h-full grow flex-col">
-        <div className="flex flex-1 justify-center py-5">
-          <div className="layout-content-container flex flex-col max-w-[960px] flex-1 px-4 sm:px-6 lg:px-8">
-            {/* Header */}
-           
-            {/* Main */}
-            <main className="flex-grow pt-10 pb-16">
-              {/* Confirmation Message */}
-              <div className="text-center">
-                <div
-                  className="inline-flex justify-center items-center size-16 rounded-full mb-4"
-                  style={{
-                    background: col("#bbf7d0", "#166534"),
-                  }}
-                >
-                  <span
-                    className="material-symbols-outlined !text-4xl"
-                    style={{ color: col("#16a34a", "#6ee7b7") }}
-                  >
-                    check_circle
-                  </span>
-                </div>
-                <h1
-                  className="tracking-tight font-bold leading-tight pb-2"
-                  style={{
-                    fontSize: 32,
-                    color: col("#1F2937", "#E5E7EB"),
-                  }}
-                >
-                  Thank You For Your Order!
-                </h1>
-                <p
-                  className="text-base font-normal pb-3"
-                  style={{ color: col("#6B7280", "#9CA3AF") }}
-                >
-                  Your order{" "}
-                  <span
-                    className="font-semibold"
-                    style={{ color: col("#1F2937", "#E5E7EB") }}
-                  >
-                    #SS-12345678
-                  </span>{" "}
-                  has been placed. A confirmation email has been sent to your address.
-                </p>
-              </div>
-              {/* Details Blocks */}
-              <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
-                {/* Left: Order Summary, Shipping, Payment */}
-                <div className="lg:col-span-2 space-y-6">
-                  {/* Order Summary */}
-                  <div
-                    className="rounded-xl shadow-sm p-6 border"
-                    style={{
-                      background: col("#fff", "#1f2937"),
-                      borderColor: col("#E5E7EB", "#22223B"),
-                    }}
-                  >
-                    <div className="flex justify-between items-center">
-                      <h2
-                        className="text-[22px] font-bold"
-                        style={{ color: col("#1F2937", "#E5E7EB") }}
-                      >
-                        Order Summary
-                      </h2>
-                      <a
-                        className="text-sm font-medium flex items-center gap-1.5 hover:underline"
-                        style={{ color: colors.primary }}
-                        href="#"
-                      >
-                        <span className="material-symbols-outlined text-base">print</span>
-                        Print Receipt
-                      </a>
-                    </div>
-                    <div
-                      className="mt-4 border-t pt-4 space-y-4"
-                      style={{ borderColor: col("#E5E7EB", "#22223B") }}
-                    >
-                      {[
-                        {
-                          img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCl9uJ0t6MUs7Kf85SUwAQY9hzEjvFCF9ReOs1P2xIH1rnfP741cDJnpmK7zej1IrtbKYO-W4yI-4FRkYOQ0yFHDzShJrLoPzPHSPiMTQoAINYYPAtwUfhdDkt-iS0I9WjDiB8ZHBM1lW8dBpx1BCqwlNL_ADsGafEdsba56q_DLRQV_zpTsh8EMYj2cJzqEKTax2R0UB-oSugPHRkPM_09aXkvIAUXbLlNOAKjjdxs5NCeIkSsqRWw6S7JsNzN1Wxm-aPO21phGoxU",
-                          title: "Smartwatch Pro X",
-                          qty: "1",
-                          price: "$249.99"
-                        },
-                        {
-                          img: "https://lh3.googleusercontent.com/aida-public/AB6AXuD8lwmzXEsFuPNXAIgA-JaPiRygjv_aridCPEhcbRIdsKSOIHOyVuwaaZQbYQDSPrWWKKv-8rjb0qGfgxwKLooE8SkPo8jF5amk23CeYiRPzd0IOCg6d8zh7yer3mW4G3hWaJNM4V8G1qVn3iMSlvnZC3hHQG5DxYK3rdB61qb4PGo2_FqJY3MvunWo1qzb3OFuqtNAslKo-Dl5DHCHQVfD7mXC3CaxCcecLxy1KCtCQeiX97py8Pn-1KrX8tUn0mEpDNgbkTtARFnY",
-                          title: "Urban Explorer Backpack",
-                          qty: "1",
-                          price: "$89.50"
-                        }
-                      ].map((prod, i) => (
-                        <div
-                          key={prod.title}
-                          className={
-                            "flex items-center gap-4 py-2 justify-between" +
-                            (i > 0 ? " border-t pt-4" : "")
-                          }
-                          style={i > 0 ? { borderColor: col("#E5E7EB", "rgba(31,22,33,0.5)") } : undefined}
-                        >
-                          <div className="flex items-center gap-4">
-                            <div
-                              className="bg-center aspect-square bg-no-repeat bg-cover rounded-lg"
-                              style={{
-                                width: 64,
-                                height: 64,
-                                backgroundImage: `url("${prod.img}")`,
-                              }}
-                              title={prod.title}
-                            ></div>
-                            <div className="flex flex-col justify-center">
-                              <p
-                                className="text-base font-medium line-clamp-1"
-                                style={{ color: col("#1F2937", "#E5E7EB") }}
-                              >
-                                {prod.title}
-                              </p>
-                              <p
-                                className="text-sm font-normal line-clamp-2"
-                                style={{ color: col("#6B7280", "#9CA3AF") }}
-                              >
-                                Qty: {prod.qty}
-                              </p>
-                            </div>
-                          </div>
-                          <div className="shrink-0">
-                            <p className="text-base font-semibold leading-normal"
-                              style={{ color: col("#1F2937", "#E5E7EB") }}>
-                              {prod.price}
-                            </p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  {/* Shipping and Payment */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    {/* Shipping Address */}
-                    <div
-                      className="rounded-xl shadow-sm p-6 border"
-                      style={{
-                        background: col("#fff", "#1f2937"),
-                        borderColor: col("#E5E7EB", "#22223B")
-                      }}
-                    >
-                      <h3
-                        className="text-lg font-bold mb-3"
-                        style={{ color: col("#1F2937", "#E5E7EB") }}
-                      >
-                        Shipping Address
-                      </h3>
-                      <address
-                        className="text-sm not-italic leading-relaxed"
-                        style={{ color: col("#6B7280", "#9CA3AF") }}
-                      >
-                        Alex Johnson<br />
-                        123 Tech Avenue<br />
-                        Innovation City, CA 90210<br />
-                        United States
-                      </address>
-                    </div>
-                    {/* Payment Method */}
-                    <div
-                      className="rounded-xl shadow-sm p-6 border"
-                      style={{
-                        background: col("#fff", "#1f2937"),
-                        borderColor: col("#E5E7EB", "#22223B")
-                      }}
-                    >
-                      <h3
-                        className="text-lg font-bold mb-3"
-                        style={{ color: col("#1F2937", "#E5E7EB") }}
-                      >
-                        Payment Method
-                      </h3>
-                      <div className="flex items-center gap-3">
-                        <img
-                          alt="Visa Card Logo"
-                          className="h-6"
-                          src="https://lh3.googleusercontent.com/aida-public/AB6AXuCaREO3F5h35U4e7uBaNh855y19EiUlkwiTrem1k7PBP1i33_uILtEGgRUa83LZ9ieSrA4kcNOZAeJXtmUNu1qOMcK3bAckruccmyjXw4bTdrMn59Xk0Orl47tM02mkgAJfW00MwCBP-8P708NlV39LNR265zXOXOSCvnhP5gl00ZHjcZST9TQWbC9m5tqXO4s4MqqkCHLRkbBhH-nP6QBmW0O758Y9kWzPbpTgBqveLw0G9rtiRsbwRcnkma54YNX4XCyIDTVoCQWz"
-                        />
-                        <p
-                          className="text-sm"
-                          style={{ color: col("#6B7280", "#9CA3AF") }}
-                        >
-                          Ending in 1234
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                {/* Right: Order Totals */}
-                <div className="lg:col-span-1">
-                  <div
-                    className="rounded-xl shadow-sm p-6 border"
-                    style={{
-                      background: col("#fff", "#1f2937"),
-                      borderColor: col("#E5E7EB", "#22223B")
-                    }}
-                  >
-                    <h3
-                      className="text-lg font-bold mb-4"
-                      style={{ color: col("#1F2937", "#E5E7EB") }}
-                    >
-                      Order Totals
-                    </h3>
-                    <div className="space-y-3 text-sm">
-                      <div className="flex justify-between"
-                        style={{ color: col("#6B7280", "#9CA3AF") }}>
-                        <span>Subtotal</span>
-                        <span>$339.49</span>
-                      </div>
-                      <div className="flex justify-between"
-                        style={{ color: col("#6B7280", "#9CA3AF") }}>
-                        <span>Shipping</span>
-                        <span>$5.00</span>
-                      </div>
-                      <div className="flex justify-between"
-                        style={{ color: col("#6B7280", "#9CA3AF") }}>
-                        <span>Taxes</span>
-                        <span>$27.16</span>
-                      </div>
-                      <div className="border-t my-3"
-                        style={{ borderColor: col("#E5E7EB", "#22223B") }}></div>
-                      <div className="flex justify-between text-base font-bold"
-                        style={{ color: col("#1F2937", "#E5E7EB") }}>
-                        <span>Grand Total</span>
-                        <span>$371.65</span>
-                      </div>
-                    </div>
+      <main className="flex-grow">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <div className="text-center mb-8">
+            <div
+              className="inline-flex justify-center items-center size-16 rounded-full mb-4"
+              style={{ background: col("#bbf7d0", "#166534") }}
+            >
+              <span
+                className="material-symbols-outlined !text-4xl"
+                style={{ color: col("#16a34a", "#6ee7b7") }}
+              >
+                check_circle
+              </span>
+            </div>
+
+            <h1
+              className="text-3xl font-bold mb-2"
+              style={{ color: col("#1F2937", "#E5E7EB") }}
+            >
+              Thank you — your order is confirmed
+            </h1>
+
+            <p className="text-sm text-muted" style={{ color: col("#6B7280", "#9CA3AF") }}>
+              Order ID: <span className="font-semibold" style={{ color: col("#1F2937", "#E5E7EB") }}>{order._id}</span>
+              {createdAt && <> • Placed on {createdAt}</>}
+            </p>
+
+            <p className="mt-2 text-sm" style={{ color: col("#6B7280", "#9CA3AF") }}>
+              A confirmation email has been sent to your account.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Left: Order & Shipping */}
+            <div className="lg:col-span-2 space-y-6">
+              <div className="rounded-xl shadow-sm p-6 border" style={{ background: col("#fff", "#1f2937"), borderColor: col("#E5E7EB", "#22223B") }}>
+                <div className="flex justify-between items-start mb-4">
+                  <h2 className="text-lg font-bold" style={{ color: col("#1F2937", "#E5E7EB") }}>Order Summary</h2>
+                  <div className="flex items-center gap-3">
                     <button
-                      className="w-full mt-6 flex items-center justify-center rounded-lg h-12 text-base font-bold leading-normal tracking-wide shadow-md hover:bg-primary/90 transition-colors"
-                      style={{ background: colors.primary, color: "#fff" }}
+                      onClick={() => window.print()}
+                      className="text-sm px-3 py-1 rounded border"
+                      style={{ color: colors.primary, borderColor: col("#E5E7EB", "#374151") }}
                     >
-                      Continue Shopping
+                      Print
                     </button>
                   </div>
                 </div>
+
+                {loadingProducts && (
+                  <div className="py-4 text-center text-sm" style={{ color: col("#6B7280", "#9CA3AF") }}>
+                    Loading product details...
+                  </div>
+                )}
+
+                {fetchError && (
+                  <div className="py-4 text-sm text-red-700 bg-red-100 rounded p-2">
+                    {fetchError}
+                  </div>
+                )}
+
+                <div className="space-y-3">
+                  {displayItems.map((it, idx) => (
+                    <div key={it.productId + "-" + idx} className={`flex items-center gap-4 py-3 ${idx > 0 ? "border-t" : ""}`} style={idx > 0 ? { borderColor: col("#E5E7EB", "#22223B") } : undefined}>
+                      <div className="w-16 h-16 bg-gray-100 rounded overflow-hidden flex items-center justify-center" style={{ background: "#fff" }}>
+                        {it.mainImageUrl ? (
+                          <img src={it.mainImageUrl} alt={it.productTitle || it.productId} className="w-full h-full object-cover" />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-xs text-gray-400">No Image</div>
+                        )}
+                      </div>
+
+                      <div className="flex-1">
+                        <div className="font-medium" style={{ color: col("#1F2937", "#E5E7EB") }}>
+                          {it.productTitle}
+                        </div>
+                        <div className="text-sm" style={{ color: col("#6B7280", "#9CA3AF") }}>
+                          Qty: {it.quantity}
+                        </div>
+                      </div>
+
+                      <div className="font-medium" style={{ color: col("#1F2937", "#E5E7EB") }}>
+                        ${formatCurrency(it.totalPrice)}
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </main>
-            {/* Footer */}
-            
+
+              <div className="rounded-xl shadow-sm p-6 border" style={{ background: col("#fff", "#1f2937"), borderColor: col("#E5E7EB", "#22223B") }}>
+                <h3 className="text-lg font-bold mb-3" style={{ color: col("#1F2937", "#E5E7EB") }}>Shipping Address</h3>
+                {order.shippingDetails ? (
+                  <address className="not-italic text-sm leading-relaxed" style={{ color: col("#6B7280", "#9CA3AF") }}>
+                    {order.shippingDetails.streetAddress}<br />
+                    {order.shippingDetails.apartment && <>{order.shippingDetails.apartment}<br /></>}
+                    {order.shippingDetails.city}{order.shippingDetails.stateOrProvince ? `, ${order.shippingDetails.stateOrProvince}` : ""} {order.shippingDetails.postalCode}<br />
+                    {order.shippingDetails.country}
+                  </address>
+                ) : (
+                  <p className="text-sm" style={{ color: col("#6B7280", "#9CA3AF") }}>No shipping details available.</p>
+                )}
+              </div>
+            </div>
+
+            {/* Right: Totals */}
+            <div className="lg:col-span-1">
+              <div className="rounded-xl shadow-sm p-6 border" style={{ background: col("#fff", "#1f2937"), borderColor: col("#E5E7EB", "#22223B") }}>
+                <h3 className="text-lg font-bold mb-4" style={{ color: col("#1F2937", "#E5E7EB") }}>Order Totals</h3>
+
+                <div className="space-y-3 text-sm">
+                  <div className="flex justify-between" style={{ color: col("#6B7280", "#9CA3AF") }}>
+                    <span>Subtotal</span>
+                    <span>${formatCurrency(totals.subtotal)}</span>
+                  </div>
+
+                  <div className="flex justify-between" style={{ color: col("#6B7280", "#9CA3AF") }}>
+                    <span>Shipping</span>
+                    <span>${formatCurrency(totals.shipping)}</span>
+                  </div>
+
+                  <div className="flex justify-between" style={{ color: col("#6B7280", "#9CA3AF") }}>
+                    <span>Tax</span>
+                    <span>${formatCurrency(totals.tax)}</span>
+                  </div>
+
+                  <div className="border-t my-3" style={{ borderColor: col("#E5E7EB", "#22223B") }}></div>
+
+                  <div className="flex justify-between text-base font-bold" style={{ color: col("#1F2937", "#E5E7EB") }}>
+                    <span>Grand Total</span>
+                    <span>${formatCurrency(totals.total)}</span>
+                  </div>
+                </div>
+
+                <div className="mt-6 flex gap-3">
+                  <button onClick={() => navigate("/orders")} className="flex-1 px-3 py-2 border rounded">
+                    View Orders
+                  </button>
+                  <button onClick={() => navigate("/")} className="flex-1 px-3 py-2 rounded text-white" style={{ background: colors.primary }}>
+                    Continue Shopping
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 }
