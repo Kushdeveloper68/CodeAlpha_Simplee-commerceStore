@@ -22,9 +22,9 @@ A simple, production-minded full-stack e-commerce demo built during an internshi
 - [Testing & Development Tips](#testing--development-tips)
 - [Security & Production Checklist](#security--production-checklist)
 - [Future Roadmap](#future-roadmap)
+- [Flowchart](#flowchart)
 - [Contributing](#contributing)
 - [Acknowledgements](#acknowledgements)
-
 ---
 
 ## About
@@ -228,6 +228,10 @@ Protected routes require \`Authorization: Bearer <token>\`.
 
 ---
 
+## Flowchart
+
+Here is the figma link of flowchart: https://www.figma.com/board/ZIQFGhx6emeFLgZp3r9psn/e-commerce-structure?node-id=0-1&t=4VqDMmhOeV1CWoFk-1
+
 ## Contributing
 
 1. Fork the repo
@@ -242,3 +246,4 @@ Please include tests and keep changes focused.
 ## Acknowledgements
 
 Built as part of an internship with CodeAlpha. Thank you to mentors and reviewers.
+
